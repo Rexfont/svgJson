@@ -1,14 +1,28 @@
 const fs = require('fs');
 
-async function convert(data, file) {
-    if(!data) return "The Data parameter is missing"
+/**
+ * 
+ * @param {file/string} filedata This will contain the file data or the string that will be converted
+ * @param {boolean} file This shall tell whether the @param filedata is FILE or STRING of data 
+ * @param {boolean} web This shall tell whether the request was made from web or nodejs 
+ * @returns The first and last step of converting
+ */
+async function axConvertor(filedata, file, web) {
+    if(!filedata) return "The Data parameter is missing"
     if(typeof file == null || typeof file == "undefined") return "You haven't specified the data type (file or content)";
 
     return file 
-        ? tagExtractor(await readFile(data, true))
-        : tagExtractor(data)
+        ? tagExtractor(web ? await webFileReader(filedata) : await readFile(filedata, true))
+        : tagExtractor(filedata)
 }
 
+function webFileReader(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.onloadend = () => resolve(reader.result)
+      reader.readAsText(file)
+    })
+}
 
 async function readFile(filepath, removeAfter) {
     return new Promise((resolve, reject) => {
@@ -104,4 +118,4 @@ function tagExtractor(data) {
 }
 
 
-module.exports = convert
+module.exports = axConvertor
