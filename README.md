@@ -7,4 +7,4 @@ You can use the API for this convertor:
         - parameters:
             - file: upload file to convert
             - code: paste the code directly
-Also you can use the interface powerd by the same API: https://axoncodes.com/xmltojson/
+- Also you can use the interface powerd by the same API: https://axoncodes.com/xmltojson/
