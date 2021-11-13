@@ -1,24 +1,47 @@
 const fs = require('fs');
 
+async function convert(data, file) {
+    if(!data) return "The Data parameter is missing"
+    if(typeof file == null || typeof file == "undefined") return "You haven't specified the data type (file or content)";
 
-async function convert(filename) {
+    return file 
+        ? tagExtractor(await readFile(data, true))
+        : tagExtractor(data)
+}
+
+
+async function readFile(filepath, removeAfter) {
     return new Promise((resolve, reject) => {
-        fs.readFile(filename, 'utf8', (error, fileContent) => {
+        fs.readFile(filepath, 'utf8', async (error, fileContent) => {
         if (error != null) {
             reject(error);
             return;
         }
-        resolve(tagExtractor(fileContent));
+        if(removeAfter) await removeFile(filepath)
+        resolve(fileContent);
         });
     });
 }
 
+async function removeFile(filepath) {
+    return new Promise((resolve, reject) => {
+        fs.unlink(filepath, (error) => {
+        if (error != null) {
+            reject(error);
+            return;
+        }
+        resolve(true);
+        });
+    });
+}
 
 function getHeadOfTag(data) {
     return data.slice(1, data.indexOf(" "));
 }
 
 function getContentOfTag(data) {
+    // check if this data is a comment
+    if(data.indexOf('<!--!')==0) return data.slice(0, data.indexOf('-->')+3);
     const tmp = data.slice(1);
     return tmp.indexOf(">")+1 < tmp.indexOf("<")
         ? tmp.slice(tmp.indexOf(">")+1, tmp.indexOf("<"))
@@ -41,9 +64,11 @@ function attrExtrator(data) {
         if(item && item.indexOf('null')<0 && item.length>0) { 
             if(item.lastIndexOf('"') == item.length-1) item = item.substring(0, item.length - 1);
             const parts = item.split('="');
-            parts[1] = parts[1].trim()
-            if(parts[0].trim() == "style") parts[1] = styleExtractor(parts[1])
-            result[parts[0].trim()] = parts[1];
+            if(parts[0] && parts[1] && parts[0].length>0 && parts[1].length>0) {
+                parts[1] = parts[1].trim()
+                if(parts[0].trim() == "style") parts[1] = styleExtractor(parts[1])
+                result[parts[0].trim()] = parts[1];
+            }
         }
     })
     return result;
@@ -55,7 +80,8 @@ function styleExtractor(style) {
     parts.forEach(item=>{
         if(item && item.indexOf('null')<0 && item.length>0) { 
             const parts = item.split(':');
-            result[parts[0].trim()] = parts[1].trim();
+            if(parts[0] && parts[1] && parts[0].length>0 && parts[1].length>0)
+                result[parts[0].trim()] = parts[1].trim();
         }
     })
     return result;
