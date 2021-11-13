@@ -22,7 +22,7 @@
     <p>OUTPUT</p>
     <textarea rows='10' id='resultcode'></textarea>
     <script>
-        const server = 'http://localhost:3000';
+        const server = 'https://axoncodes.com/xmltojson';
         
         document.getElementById('form')
         .addEventListener('submit', event => {
@@ -45,8 +45,7 @@
                     body: formdata,
                     redirect: 'follow'
                 };
-
-                const result = await fetch(`${server}/xmltojson`, requestOptions)
+                const result = await fetch(`${server}/convert`, requestOptions)
                 .then(response => response.text())
                 .catch(error => {alert(error); return error});
                 const resultJson = JSON.parse(result);

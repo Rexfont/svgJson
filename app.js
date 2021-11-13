@@ -1,39 +1,26 @@
-const createError = require('http-errors');
 const express = require('express');
-const cors = require('cors')
-
+const app = express();
 const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const indexRouter = require('./routes/index');
-var app = express();
-
-
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+const multer  = require('multer')
+const cors = require('cors')
 app.use(cors())
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-app.use('/', indexRouter);
+const upload = multer({ dest: '../uploads' })
+const convert = require('./src/xmltojson');
+const root = '/xmltojson';
+const PORT = process.env.PORT || 8000;
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+
+app.get(`${root}/`, (req, res) => {
+  res.sendFile(path.join(__dirname, './views/index.html'));
 });
 
-// error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
+  if(req.file) {
+    const converted = await convert(path.join(__dirname, `./${req.file.path}`), true);
+    res.send(converted)
+  }
+  res.send(await convert(req.body.code, false))
+})
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
-module.exports = app;
+app.listen(PORT, () => console.log(`Server is running on PORT ${PORT}`));
