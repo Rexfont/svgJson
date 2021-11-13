@@ -1,6 +1,5 @@
 {
   "name": "xmltojson",
-  "homepage": "https://axoncodes.com/xmltojson/",
   "version": "0.0.0",
   "main": "app.js",
   "scripts": {
