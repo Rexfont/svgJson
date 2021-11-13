@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>XML to JSON | Axoncodes production</title>
+    <style>
+        form#form { display: grid; }
+        body { display: grid; }
+    </style>
+</head>
+<body>
+    <h1>Welcome to xmlTojson convertor</h1>
+    <p>Upload your xml file or paste you code in textbox</p>
+    <form id='form'>
+        <p>INPUT</p>
+        <textarea rows='10' id='code' name='code'></textarea>
+        <input type='submit' />
+        <input id='file' type='file' name='file' />
+    </form>
+    <p>OUTPUT</p>
+    <textarea rows='10' id='resultcode'></textarea>
+    <script>
+        const server = 'http://localhost:3000';
+        
+        document.getElementById('form')
+        .addEventListener('submit', event => {
+            event.preventDefault();
+            convert()
+        })
+        
+        document.getElementById('file')
+        .addEventListener('change', convert)
+
+
+        async function convert() {
+            if(!document.getElementById('file').files[0] && document.getElementById('code').value==0) alert("No data entered");
+            else {
+                var formdata = new FormData();
+                if(document.getElementById('file').files[0]) formdata.append('file', document.getElementById('file').files[0], '/path/to/file')
+                else formdata.append('code', document.getElementById('code').value);
+                var requestOptions = {
+                    method: 'POST',
+                    body: formdata,
+                    redirect: 'follow'
+                };
+
+                const result = await fetch(`${server}/xmltojson`, requestOptions)
+                .then(response => response.text())
+                .catch(error => {alert(error); return error});
+                const resultJson = JSON.parse(result);
+
+                document.getElementById('resultcode').value = result;
+            }
+        }
+
+
+        
+    </script>
+</body>
+</html>
