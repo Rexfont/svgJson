@@ -23,37 +23,58 @@
     <textarea rows='10' id='resultcode'></textarea>
     <script>
         const server = 'https://axoncodes.com/xmltojson';
-        // const server = 'http://localhost:8000/xmltojson';
+        // const server = 'http://localhost:8001/xmltojson';
         
         document.getElementById('form')
         .addEventListener('submit', async event => {
             event.preventDefault();
-            await convert()
+            await convertCode()
         })
         
         document.getElementById('file')
-        .addEventListener('change', convert)
+        .addEventListener('change', async event => { 
+            await convertFile()
+        })
 
 
-        async function convert() {
-            if(!document.getElementById('file').files[0] && document.getElementById('code').value.length==0) alert("No data entered");
-            else {
+        async function convertCode() {
 
-                var formdata = new FormData();
-                if(document.getElementById('code').value.length>0) formdata.append('code', document.getElementById('code').value);
-                else formdata.append('file', document.getElementById('file').files[0], '/path/to/file')
-                var requestOptions = {
-                    method: 'POST',
-                    body: formdata,
-                    redirect: 'follow'
-                };
-                const result = await fetch(`${server}/convert`, requestOptions)
-                .then(response => response.text())
-                .catch(error => {alert(error); return 'error'});
-                const resultJson = JSON.parse(result);
+            var formdata = new FormData();
+            formdata.append('code', document.getElementById('code').value);
+            await convertorApi({
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            })
 
-                document.getElementById('resultcode').value = JSON.stringify(resultJson);
-            }
+        }
+
+
+        async function convertFile() {
+
+            var formdata = new FormData();
+            formdata.append('file', document.getElementById('file').files[0], '/path/to/file');
+            await convertorApi({
+                method: 'POST',
+                body: formdata,
+                redirect: 'follow'
+            })
+            
+        }
+
+
+        async function convertorApi(requestOptions) {
+
+            const result = await fetch(`${server}/convert`, requestOptions)
+            .then(response => response.text())
+            .catch(error => {alert(error); return 'error'});
+
+            let resultJson = JSON.parse(result);
+
+            document.getElementById('resultcode').value = 
+                resultJson.status==400 
+                    ? resultJson.message 
+                    : JSON.stringify(resultJson.message);
         }
 
 
