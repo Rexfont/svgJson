@@ -28,8 +28,7 @@ app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
   if(req.file) {
     const converted = await axConvertor(path.join(__dirname, `./${req.file.path}`), true, false);
     res.send(converted)
-  }
-  res.send(await axConvertor(req.body.code, false, false))
+  }else res.send(await axConvertor(req.body.code, false, false))
 })
 
 

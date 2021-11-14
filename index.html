@@ -51,7 +51,7 @@
                 .then(response => response.text())
                 .catch(error => {alert(error); return 'error'});
                 const resultJson = JSON.parse(result);
-                console.log(resultJson);
+
                 document.getElementById('resultcode').value = JSON.stringify(resultJson);
             }
         }
