@@ -5,7 +5,7 @@ const multer  = require('multer')
 // const server = require('server');
 const cors = require('cors')
 app.use(cors())
-const upload = multer({ dest: '../uploads' })
+const upload = multer({ dest: '../../uploads/' })
 // const { get, post } = server.router;
 const axConvertor = require('./src/xmltojson');
 const root = '/xmltojson';
