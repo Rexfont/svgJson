@@ -7,7 +7,7 @@ app.use(cors())
 const upload = multer({ dest: '../../uploads/' })
 const xmlToJson = require('./lib/xmltojson');
 const root = '/xmltojson';
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 8001;
 
 app.use((req, res, next) => {
   console.log(`${req.method} : ${req._parsedUrl.path}`);
@@ -23,8 +23,13 @@ app.get(`${root}/web`, (req, res) => {
 });
 
 app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
-  if(req.file) res.send(await xmlToJson.axConvertor(path.join(__dirname, `./${req.file.path}`), true, false))
-  else res.send(await xmlToJson.axConvertor(req.body.code, false, false))
+  if(req.file) {
+    const response = await xmlToJson.axConvertor(path.join(__dirname, `./${req.file.path}`), true, false);
+    res.send(response)
+  } else {
+    const response = await xmlToJson.axConvertor(req.body.code, false, false);
+    res.send(response)
+  }
 })
 
 
