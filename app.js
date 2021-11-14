@@ -19,7 +19,7 @@ app.get(`${root}/`, (req, res) => {
 });
 
 app.get(`${root}/web`, (req, res) => {
-  res.sendFile(path.join(__dirname, './lib/xmltojson.js'));
+  res.sendFile(path.join(__dirname, './lib/xmltojson.min.js'));
 });
 
 app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
