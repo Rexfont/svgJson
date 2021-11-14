@@ -1,6 +1,8 @@
 # XMLtoJSON
 I can convert any XML file to JSON
 
+Specially used for converting SVG file to json
+
 ## Methods of use:
  - CDN link
  - API
