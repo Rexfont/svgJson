@@ -4,7 +4,7 @@ const path = require('path');
 const multer  = require('multer')
 const cors = require('cors')
 app.use(cors())
-const upload = multer({ dest: '../../uploads/' })
+const upload = multer({ dest: '../../../uploads/' })
 const xmlToJson = require('./lib/xmltojson');
 const root = '/xmltojson';
 const PORT = process.env.PORT || 8001;
