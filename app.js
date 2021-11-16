@@ -15,8 +15,6 @@ app.use((req, res, next) => {
 })
 
 app.get(`${root}/`, (req, res) => {
-  console.log(typeof module);
-  console.log(typeof define);
   res.sendFile(path.join(__dirname, './index.html'));
 });
 
@@ -29,8 +27,9 @@ app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
     const response = await xmlAndJson.convert(path.join(__dirname, `./${req.file.path}`), true, false);
     res.send(response)
   } else {
-    const response = await xmlAndJson.convert(req.body.code, false, false);
-    res.send(response)
+    xmlAndJson.convert(req.body.code, false, false)
+    .then(response => res.send(response))
+    .catch(error => res.status(400).send(error.stack))
   }
 })
 

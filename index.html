@@ -66,15 +66,13 @@
         async function convertorApi(requestOptions) {
 
             const result = await fetch(`${server}/convert`, requestOptions)
-            .then(response => response.text())
-            .catch(error => {alert(error); return 'error'});
+                .then(response => response.text());
 
-            let resultJson = JSON.parse(result);
+            let resultJson = result.indexOf('TypeError') >= 0
+                ? result
+                : JSON.parse(result);
 
-            document.getElementById('resultcode').value = 
-                resultJson.status==400 
-                    ? resultJson.message 
-                    : JSON.stringify(resultJson.message);
+            document.getElementById('resultcode').value = resultJson;
         }
 
 
