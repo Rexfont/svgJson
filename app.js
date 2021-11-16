@@ -23,14 +23,19 @@ app.get(`${root}/web`, (req, res) => {
 });
 
 app.post(`${root}/convert`, upload.single('file'), async (req, res) => {
-  if(req.file) {
-    const response = await xmlAndJson.convert(path.join(__dirname, `./${req.file.path}`), true, false);
-    res.send(response)
-  } else {
-    xmlAndJson.convert(req.body.code, false, false)
-    .then(response => res.send(response))
-    .catch(error => res.status(400).send(error.stack))
-  }
+  if(req.file) xmlAndJson.convert(path.join(__dirname, `./${req.file.path}`), true, false)
+      .then(response => res.send(response))
+      .catch(error => {
+        console.log(error.stack?error.stack:error);
+        res.status(400).send(error.stack?error.stack:error)
+      })
+  else xmlAndJson.convert(req.body.code, false, false)
+      .then(response => res.send(response))
+      .catch(error => {
+        console.log(error.stack?error.stack:error);
+        res.status(400).send(error.stack?error.stack:error)
+      })
+  
 })
 
 

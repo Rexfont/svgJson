@@ -67,12 +67,15 @@
 
             const result = await fetch(`${server}/convert`, requestOptions)
                 .then(response => response.text());
+            console.log(result);
 
-            let resultJson = result.indexOf('TypeError') >= 0
-                ? result
-                : JSON.parse(result);
+            // let resultJson = result.indexOf('TypeError') >= 0
+            //     ? result
+            //     : JSON.parse(result);
 
-            document.getElementById('resultcode').value = resultJson;
+            // let resultJson = result;
+
+            document.getElementById('resultcode').value = result;
         }
 
 
