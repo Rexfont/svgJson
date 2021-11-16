@@ -40,6 +40,7 @@ build/Release
 # Dependency directories
 node_modules/
 NOTE.txt
+tmp/
 jspm_packages/
 tmp/
 
