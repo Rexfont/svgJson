@@ -5,8 +5,8 @@
  *
  */
 
-const jsontosvg = require('./jsontosvg')
-const svgtojson = require('./svgtojson')
+const jsontosvg = require('./lib/jsontosvg')
+const svgtojson = require('./lib/svgtojson')
 
 module.exports = {
 

@@ -2,6 +2,23 @@
   "name": "svgjson",
   "version": "0.0.1",
   "main": "app.js",
+  "description": "I can convert any XML file to JSON",
+  "keywords": [
+    "svg",
+    "xml",
+    "json",
+    "convertor",
+    "parser"
+  ],
+  "author": "Axoncodes <info@axoncodes.com>",
+  "repository": "Rexfont/svgJson",
+  "bin": {
+    "svgjson": "./index.js"
+  },
+  "files": [
+    "index.js",
+    "lib/"
+  ],
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
@@ -18,7 +35,6 @@
     "server": "^1.0.36"
   },
   "devDependencies": {
-    "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "nodemon": "^2.0.15",
     "npm-run-all": "^4.1.5"
