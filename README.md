@@ -1,7 +1,7 @@
-# XMLandJSON
+# SVGJSON
 I can convert any XML file to JSON
 
-Specially used for converting SVG file to json
+Specially used for converting SVG file to json and vice versa
 
 ## Methods of use:
  - CDN link
@@ -9,25 +9,24 @@ Specially used for converting SVG file to json
  - Web Interface
 
 ### CDN link
- - link: https://axoncodes.com/xmlandjson/web
- - The function to use: axConvertor(filedata, file, web)
+ - link: https://rexfont.com/svgjson/cdn
+ - The function to use: axConvertor(filedata, web)
  ```
  /**
    * 
    * @param {file/string} filedata This will contain the file data or the string that will be converted
-   * @param {boolean} file This shall tell whether the @param filedata is FILE or STRING of data 
    * @param {boolean} web This shall tell whether the request was made from web or nodejs 
    * @returns The first and last step of converting
    */
  ```
  - Example:
  ```
- <script src="https://axoncodes.com/xmlandjson/web"></script>
+ <script src="https://rexfont.com/svgjson/web"></script>
  await axConvertor(document.getElementById('file').files[0], true, true);
  ```
 
 ### API
-- Link: https://axoncodes.com/xmlandjson/convert
+- Link: https://rexfont.com/svgjson/convert
 - Method: POST
 - data type: form-data
 - parameters:
@@ -35,8 +34,8 @@ Specially used for converting SVG file to json
     - code: paste the code directly
 
 ### Web Interface
- You can use the interface powerd by API: https://axoncodes.com/xmlandjson/
+ You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
 
-Brough to you by [AXONCODES](https://axoncodes.com)
+Brough to you by [REXFONT](https://rexfont.com)
