@@ -1,21 +1,13 @@
 
 /**
  * @author Axoncodes
- * @version 2.0.0
+ * @version 0.0.4
  *
  */
 
 const jsontosvg = require('./lib/jsontosvg')
 const svgtojson = require('./lib/svgtojson')
 const fs = require('fs');
-
-
-// /**
-//  * 
-//  * @param {file/string} filedata This will contain the file data or the string that will be converted
-//  * @param {boolean} web This shall tell whether the request was made from web or nodejs (incase the data is a file that should be trnasformed)
-//  * @returns The first and last step of converting what ever the data is ;)
-//  */
 
 /**
  * @data

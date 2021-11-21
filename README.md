@@ -12,12 +12,14 @@ Specially used for converting SVG file to json and vice versa
  - link: https://rexfont.com/svgjson/cdn
  - The function to use: axConvertor(filedata, web)
  ```
- /**
-   * 
-   * @param {file/string} filedata This will contain the file data or the string that will be converted
-   * @param {boolean} web This shall tell whether the request was made from web or nodejs 
-   * @returns The first and last step of converting
-   */
+  /**
+  * @data
+  * @web web/node
+  * @file file/string
+  * @remove removeafter
+  * @output return/save
+  * @filename the name of file the data should be stored
+  */
  ```
  - Example:
  ```
