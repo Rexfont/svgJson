@@ -1,6 +1,6 @@
 {
   "name": "svgjson",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "main": "index.js",
   "description": "I can convert any XML file to JSON",
   "keywords": [
