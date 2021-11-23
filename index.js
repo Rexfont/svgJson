@@ -7,20 +7,21 @@
 
 const jsontosvg = require('./lib/jsontosvg')
 const svgtojson = require('./lib/svgtojson')
+const convertToPath = require('./lib/convertToPath')
 const fs = require('fs');
 
 /**
- * @data
- * @web web/node
- * @file file/string
- * @remove removeafter
- * @output return/save
- * @filename the name of file the data should be stored
+ * @param {string/file} data : the path to file or string as data
+ * @param {boolean} file: declare whether you are using a file or string as data
+ * @param {boolean} remove: in case of using file, should the file be deleted or not
+ * @param {boolean} output: write to file or just return the generated data
+ * @param {string} filename: the name of file the data should be written on
+ * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
-async function convert({data, web, file, remove, output, filename} = {}) {
-  const mainData = isitJson(await getData(data, file, web, remove));
-  const createdData = await createfile(mainData, output, filename)
-  console.log(createdData);
+async function convert({data, file, remove, output, filename, unify} = {}) {
+  let mainData = isitJson(await getData(data, file, remove));
+  mainData = unify ? convertToPath(mainData) : mainData;
+  const createdData = await createfile(mainData, output, filename);
   return createdData
 }
 
@@ -35,14 +36,8 @@ function createfile(data, output, filename) {
       });
 } 
 
-function getData(data, file, web, remove) {
-  return file ? convertData(data, web, remove) : data;
-}
-
-async function convertData(filedata, web, remove) {
-  return web 
-    ? await webFileReader(filedata) 
-    : await readFile(filedata, remove);
+function getData(data, file, remove) {
+  return file ? readFile(data, remove) : data;
 }
 
 function isitJson(data) {
@@ -67,14 +62,15 @@ function jsonValidation(data) {
   return data;
 }
 
-function webFileReader(file) {
-  if(!file || file.length==0) throw 'File Invalid';
-  return new Promise((resolve) => {
-    const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result)
-    reader.readAsText(file)
-  })
-}
+// function webFileReader(file) {
+//   if(!file || file.length==0) throw 'File Invalid';
+//   return new Promise((resolve) => {
+//     const reader = new FileReader()
+//     reader.onloadend = () => resolve(reader.result)
+//     reader.readAsText(file)
+//   })
+// }
+
 function readFile(filepath, removeAfter) {
   if(!filepath || filepath.length==0) throw 'File Invalid';
   return new Promise((resolve, reject) => {
