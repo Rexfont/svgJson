@@ -11,18 +11,21 @@ const convertToPath = require('./lib/convertToPath')
 const fs = require('fs');
 
 /**
- * @param {string/file} data : the path to file or string as data
- * @param {boolean} file: declare whether you are using a file or string as data
- * @param {boolean} remove: in case of using file, should the file be deleted or not
+ * @param {string/file} input : the path to file or string as data
  * @param {boolean} output: write to file or just return the generated data
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
-async function convert({data, file, remove, output, filename, unify} = {}) {
-  let mainData = isitJson(await getData(data, file, remove));
+async function convert({input, output=false, filename, unify=false} = {}) {
+  const file = fileOrString(input);
+  let mainData = isitJson(await getData(input, file));
   mainData = unify ? convertToPath(mainData) : mainData;
   const createdData = await createfile(mainData, output, filename);
   return createdData
+}
+
+function fileOrString(data) {
+  return data.match(/[^n{a-z, A-Z, 0-9}, ., /, :, \\]/) ? false : true
 }
 
 function createfile(data, output, filename) {
@@ -36,8 +39,8 @@ function createfile(data, output, filename) {
       });
 } 
 
-function getData(data, file, remove) {
-  return file ? readFile(data, remove) : data;
+function getData(data, file) {
+  return file ? readFile(data) : data;
 }
 
 function isitJson(data) {
@@ -71,7 +74,7 @@ function jsonValidation(data) {
 //   })
 // }
 
-function readFile(filepath, removeAfter) {
+function readFile(filepath, removeAfter=true) {
   if(!filepath || filepath.length==0) throw 'File Invalid';
   return new Promise((resolve, reject) => {
     fs.readFile(filepath, 'utf8', async (error, fileContent) => {

@@ -15,17 +15,25 @@ npm i svgjson
 ```
 Params: 
 /**
- * @param {string/file} data : the path to file or string as data
- * @param {boolean} web: web/node, declare whether you are using this function by node or web
- * @param {boolean} file: declare whether you are using a file or string as data
- * @param {boolean} remove: in case of using file, should the file be deleted or not
+ * @param {string/file} input : the path to file or string as data
  * @param {boolean} output: write to file or just return the generated data
  * @param {string} filename: the name of file the data should be written on
+ * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
 ```
-Example:
+Simple Example:
 ```
-svgjson({data: 'filepath/string', web: false, file: true, remove: true, output: true, filename: 'example.txt'})
+svgjson({input: '<svg>'})
+```
+You can convert all SVG specific tags to PATH by setting -> unify:true
+
+example:
+```
+svgjson({input: '<svg>', unify: true})
+```
+complete Example:
+```
+svgjson({input: 'filepath/string', remove: false, output: true, filename: 'example.txt', unify: true})
 ```
 
 ### API
