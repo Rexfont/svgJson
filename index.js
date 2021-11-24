@@ -12,25 +12,26 @@ const fs = require('fs');
 
 /**
  * @param {string/file} input : the path to file or string as data
- * @param {boolean} output: write to file or just return the generated data
+ * @param {boolean} outputFormat: the version of outputed data : svg, json
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
-async function convert({input, output=false, filename, unify=false} = {}) {
+async function convert({input, outputFormat, filename, unify=false} = {}) {
   const file = fileOrString(input);
   let mainData = isitJson(await getData(input, file));
   mainData = unify ? convertToPath(mainData) : mainData;
-  const createdData = await createfile(mainData, output, filename);
+  mainData = outputFormat ? convertBack(outputFormat, mainData) : mainData
+  const createdData = await createfile(mainData, filename);
   return createdData
 }
 
 function fileOrString(data) {
-  const regExp = /[^n{a-z, A-Z, 0-9}, ., /, :, \\, _]/;
+  const regExp = /[^n{a-z, A-Z, 0-9}, ., /, :, \\, _, -]/;
   return data.match(regExp) ? false : true
 }
 
-function createfile(data, output, filename) {
-  return !output
+function createfile(data, filename) {
+  return !filename
     ? data
     : new Promise((resolve) => {
         fs.writeFile(filename, data, function (err) {
@@ -48,6 +49,20 @@ function isitJson(data) {
   return data.indexOf('<') == 0
     ? JSON.stringify(svgtojson(xmlValidation(data)))
     : jsontosvg(JSON.parse(jsonValidation(data)));
+}
+
+function convertBack(outputFormat, data) {
+  
+  if(outputFormat.toLowerCase() == 'svg')
+    return data.indexOf('<')==0
+      ? data
+      : jsontosvg(JSON.parse(jsonValidation(data)));
+
+  if(outputFormat.toLowerCase() == 'json')
+    return data.indexOf('<')==0
+        ? JSON.stringify(svgtojson(xmlValidation(data)))
+        : data;
+
 }
 
 function xmlValidation(data) {
@@ -75,7 +90,7 @@ function jsonValidation(data) {
 //   })
 // }
 
-function readFile(filepath, removeAfter=true) {
+function readFile(filepath, removeAfter=false) {
   if(!filepath || filepath.length==0) throw 'File Invalid';
   return new Promise((resolve, reject) => {
     fs.readFile(filepath, 'utf8', async (error, fileContent) => {

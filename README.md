@@ -16,7 +16,7 @@ npm i svgjson
 Params: 
 /**
  * @param {string/file} input : the path to file or string as data
- * @param {boolean} output: write to file or just return the generated data
+ * @param {boolean} outputFormat: the version of outputed data : svg, json
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
@@ -33,7 +33,7 @@ svgjson({input: '<svg>', unify: true})
 ```
 complete Example:
 ```
-svgjson({input: 'filepath/string', remove: false, output: true, filename: 'example.txt', unify: true})
+svgjson({input: 'filepath/string', remove: false, outputFormat: 'svg', filename: 'example.txt', unify: true})
 ```
 
 ### API
@@ -47,6 +47,10 @@ svgjson({input: 'filepath/string', remove: false, output: true, filename: 'examp
 ### Web Interface
  You can use the interface powerd by API: https://rexfont.com/svgjson/
 
+
+## Version 0.0.9 updates:
+- You can now convert an SVG file ti directly unify the tags and store output to another file
+- You can choose to either have the output as svg or json despite the input data
 
 
 Brough to you by [REXFONT](https://rexfont.com)
