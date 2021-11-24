@@ -25,7 +25,8 @@ async function convert({input, output=false, filename, unify=false} = {}) {
 }
 
 function fileOrString(data) {
-  return data.match(/[^n{a-z, A-Z, 0-9}, ., /, :, \\]/) ? false : true
+  const regExp = /[^n{a-z, A-Z, 0-9}, ., /, :, \\, _]/;
+  return data.match(regExp) ? false : true
 }
 
 function createfile(data, output, filename) {
