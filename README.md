@@ -37,7 +37,7 @@ svgjson({input: 'filepath/string', remove: false, output: true, filename: 'examp
 ```
 
 ### API
-- Link: https://rexfont.com/modules/svgjson/convert
+- Link: https://rexfont.com/svgjson/convert
 - Method: POST
 - data type: form-data
 - parameters:
@@ -45,7 +45,7 @@ svgjson({input: 'filepath/string', remove: false, output: true, filename: 'examp
     - code: paste the code directly
 
 ### Web Interface
- You can use the interface powerd by API: https://rexfont.com/modules/svgjson/
+ You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
 
