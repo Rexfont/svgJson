@@ -8,11 +8,7 @@ Specially used for converting SVG file to json and vice versa
  - API
  - Web Interface
 
-### Node Module
-```
-npm i svgjson
-```
-Params:
+ Params:
 ```
 /**
  * @param {string/file} input : the path to file or string as data
@@ -20,6 +16,15 @@ Params:
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
+```
+
+### Node Module
+```
+npm i svgjson
+```
+To use the module, add the requirement to your file:
+```
+const svgjson = require('svgjson');
 ```
 Simple Example:
 ```
