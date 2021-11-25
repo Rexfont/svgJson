@@ -12,8 +12,8 @@ Specially used for converting SVG file to json and vice versa
 ```
 npm i svgjson
 ```
+Params:
 ```
-Params: 
 /**
  * @param {string/file} input : the path to file or string as data
  * @param {boolean} outputFormat: the version of outputed data : svg, json
@@ -31,6 +31,8 @@ example:
 ```
 svgjson({input: '<svg>', unify: true})
 ```
+- You can store the generated data directly to a file with your choice with the 'filename' parameter
+- and select the outputed format with 'outputFormat' parameter (if the generated data is svg already, by selecting svg, it will not change, but by selecting "json" the returned data shall be json)
 complete Example:
 ```
 svgjson({input: 'filepath/string', remove: false, outputFormat: 'svg', filename: 'example.txt', unify: true})
