@@ -12,7 +12,7 @@ Specially used for converting SVG file to json and vice versa
 ```
 /**
  * @param {string/file} input : the path to file or string as data
- * @param {boolean} outputFormat: the version of outputed data : svg, json
+ * @param {string} outputFormat: the version of outputed data : svg, json
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
@@ -40,7 +40,7 @@ svgjson({input: '<svg>', unify: true})
 - and select the outputed format with 'outputFormat' parameter (if the generated data is svg already, by selecting svg, it will not change, but by selecting "json" the returned data shall be json)
 complete Example:
 ```
-svgjson({input: 'filepath/string', remove: false, outputFormat: 'svg', filename: 'example.txt', unify: true})
+svgjson({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true})
 ```
 
 ### API
