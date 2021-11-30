@@ -1,6 +1,6 @@
 {
   "name": "svgjson",
-  "version": "0.0.9",
+  "version": "1.0.0",
   "main": "index.js",
   "description": "I can convert any XML file to JSON",
   "keywords": [
@@ -9,7 +9,9 @@
     "json",
     "convertor",
     "parser",
-    "path"
+    "path",
+    "fontSVG",
+    "font"
   ],
   "author": "Axoncodes <info@axoncodes.com>",
   "repository": "Rexfont/svgJson",

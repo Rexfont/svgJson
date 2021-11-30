@@ -7,12 +7,13 @@
 
 const jsontosvg = require('./lib/jsontosvg')
 const svgtojson = require('./lib/svgtojson')
+const svgicontosvgfont = require('./lib/svgicontosvgfont')
 const convertToPath = require('./lib/convertToPath')
 const fs = require('fs');
 
 /**
  * @param {string/file} input : the path to file or string as data
- * @param {boolean} outputFormat: the version of outputed data : svg, json
+ * @param {boolean} outputFormat: the version of outputed data : svg, json, fontSVG
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
@@ -26,7 +27,7 @@ async function convert({input, outputFormat, filename, unify=false} = {}) {
 }
 
 function fileOrString(data) {
-  const regExp = /[^n{a-z, A-Z, 0-9}, ., /, :, \\, _, -]/;
+  const regExp = /[^n{a-z,A-Z,0-9},.,/,:,\\,_,-]/;
   return data.match(regExp) ? false : true
 }
 
@@ -60,8 +61,17 @@ function convertBack(outputFormat, data) {
 
   if(outputFormat.toLowerCase() == 'json')
     return data.indexOf('<')==0
-        ? JSON.stringify(svgtojson(xmlValidation(data)))
-        : data;
+      ? JSON.stringify(svgtojson(xmlValidation(data)))
+      : data;
+
+  if(outputFormat.toLowerCase() == 'fontsvg')
+    return svgicontosvgfont(
+      data.indexOf('<')==0
+        ? svgtojson(xmlValidation(data))
+        : jsonValidation(data)
+      );
+
+  throw 'Invalid outputFormat'
 
 }
 

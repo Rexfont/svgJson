@@ -12,7 +12,7 @@ Specially used for converting SVG file to json and vice versa
 ```
 /**
  * @param {string/file} input : the path to file or string as data
- * @param {string} outputFormat: the version of outputed data : svg, json
+ * @param {string} outputFormat: the version of outputed data : svg, json, fontSVG
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
@@ -55,9 +55,8 @@ svgjson({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt',
  You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
-## Version 0.0.9 updates:
-- You can now convert an SVG file ti directly unify the tags and store output to another file
-- You can choose to either have the output as svg or json despite the input data
+## Version 1.0.0 updates:
+- You can now convert your SVG Icons to SVG Font using the outputFormat parameter
 
 
 Brough to you by [REXFONT](https://rexfont.com)
