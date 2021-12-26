@@ -1,8 +1,6 @@
 
 /**
  * @author Axoncodes
- * @version 0.0.4
- *
  */
 
 const jsontosvg = require('./lib/jsontosvg')
