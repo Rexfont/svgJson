@@ -17,17 +17,29 @@ const fs = require('fs');
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unify: Whether the SVG specific tags should be all converted to PATH or not
  */
-async function convert({input, outputFormat, filename, unify=false} = {}) {
+async function convert({input, outputFormat, filename, unify = false} = {}) {
+  // check if it is a file or string of data (true:file, false:string)
   const file = fileOrString(input);
-  let mainData = isitJson(await getData(input, file));
+  // readt the data of it is file
+  const data = await getData(input, file);
+  // check if it's a json or svg (true:svg, false:json)
+  const format = isitJson(data);
+  // Transform the data
+  var mainData = format
+    ? JSON.stringify(svgtojson(xmlValidation(data)))
+    : jsontosvg(JSON.parse(jsonValidation(data)));
+  // activate the convertToPath process if it's 'fontsvg'
+  if(outputFormat.toLowerCase() == 'fontsvg') unify = true;
+  // execute the convertToPath process
   mainData = unify ? convertToPath(mainData) : mainData;
+  // Transform the result again to the custom format if requested
   mainData = outputFormat ? convertBack(outputFormat, mainData) : mainData
-  const createdData = await createfile(mainData, filename);
-  return createdData
+  // store result
+  return createfile(mainData, filename);
 }
 
 function fileOrString(data) {
-  const regExp = /[^n{a-z,A-Z,0-9},.,/,:,\\,_,-]/;
+  const regExp = /[^n{a-z,A-Z,0-9},.,/,:,\\,_,-,  , -]/;
   return data.match(regExp) ? false : true
 }
 
@@ -48,8 +60,6 @@ function getData(data, file) {
 
 function isitJson(data) {
   return data.indexOf('<') == 0
-    ? JSON.stringify(svgtojson(xmlValidation(data)))
-    : jsontosvg(JSON.parse(jsonValidation(data)));
 }
 
 function convertBack(outputFormat, data) {
@@ -84,8 +94,8 @@ function xmlValidation(data) {
 }
 function jsonValidation(data) {
   if(!data || data.length==0) throw 'No DATA send';
-  const repeates = repeatesF(data);
   if(data.indexOf('{')==-1 || data.indexOf('}')==-1) throw 'no valid object found';
+  const repeates = repeatesF(data);
   if(repeates['['] != repeates[']']) throw "[] opening and closings don't match";
   if(repeates['{'] != repeates['}']) throw "{} opening and closings don't match";
   return data;
