@@ -1,0 +1,35 @@
+{
+  "extends": "airbnb-base",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "rules": {
+    "no-var": "error",
+    "no-console": "off",
+    "no-use-before-define": "off",
+    "max-len": ["warn",
+      {
+        "code": 80,
+        "tabWidth": 2,
+        "ignoreComments": false,
+        "ignoreTrailingComments": false
+      }
+    ],
+    "function-paren-newline": ["error", "consistent"],
+    "indent": ["error", 2,
+      {
+        "MemberExpression": "off"
+      }
+    ],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-unused-expressions": ["error",
+      {
+        "allowTernary": true,
+        "allowShortCircuit": true
+      }
+    ]
+  }
+}
