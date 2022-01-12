@@ -41,12 +41,20 @@ function prepare(options) {
 }
 
 function parseAbsolute(initOptions) {
+  return parseFormat(initOptions, 'absolute')
+}
+
+function parseRelative(initOptions) {
+  return parseFormat(initOptions, 'relative')
+}
+
+function parseFormat(initOptions, requestedFormat) {
   const options = prepare(initOptions);
 
   return fileHelper.getData(options)
   .then(parseJson)
   .then(data => data.map(tag => parse.parseContour(tag)))
-  .then(path => parseFormat.parseFormat(path, 'absolute'))
+  .then(path => parseFormat.parseFormat(path, requestedFormat))
   .then(data => assign(data, options))
   .then(data => fileHelper.createfile(data, options))
 }
@@ -67,4 +75,5 @@ module.exports = {
   convert,
   parsePoints: parse.parseContour,
   parseAbsolute,
+  parseRelative,
 };
