@@ -40,17 +40,8 @@ function prepare(options) {
   return options;
 }
 
-function parseAbsolute(initOptions) {
-  return parseFormat(initOptions, 'absolute')
-}
-
-function parseRelative(initOptions) {
-  return parseFormat(initOptions, 'relative')
-}
-
-function parseFormat(initOptions, requestedFormat) {
+function parseFormatHandler(initOptions, requestedFormat) {
   const options = prepare(initOptions);
-
   return fileHelper.getData(options)
   .then(parseJson)
   .then(data => data.map(tag => parse.parseContour(tag)))
@@ -62,7 +53,7 @@ function parseFormat(initOptions, requestedFormat) {
 function assign(data, {outputFormat}) {
   // skip if there is no outputFormat set
   if(!outputFormat) return data;
-  
+
   switch(outputFormat.toLowerCase()) {
     case 'svg': return parseSvg(data)
     case 'json': return parseJson(data)
@@ -74,6 +65,7 @@ function assign(data, {outputFormat}) {
 module.exports = {
   convert,
   parsePoints: parse.parseContour,
-  parseAbsolute,
-  parseRelative,
+  parseAbsolute: initOptions => parseFormatHandler(initOptions, 'absolute'),
+  parseRelative: initOptions => parseFormatHandler(initOptions, 'relative'),
+  parsePath: initOptions => parsePath(initOptions.code, {unifySvg: true})
 };
