@@ -28,19 +28,33 @@ const svgjson = require('svgjson');
 ```
 Simple Example:
 ```
-svgjson({input: '<svg>'})
+svgjson.convert({input: '<svg>'})
 ```
 You can convert all SVG specific tags to PATH by setting -> unify:true
 
 example:
 ```
-svgjson({input: '<svg>', unify: true})
+svgjson.convert({input: '<svg>', unify: true})
 ```
 - You can store the generated data directly to a file with your choice with the 'filename' parameter
 - and select the outputed format with 'outputFormat' parameter (if the generated data is svg already, by selecting svg, it will not change, but by selecting "json" the returned data shall be json)
 complete Example:
 ```
-svgjson({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true})
+svgjson.convert({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true})
+```
+
+Now you can also directly convert the path all commands to Relative or Absolute
+```
+const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
+
+svgjson.parseAbsolute(options) // to parse path commands to absolute
+svgjson.parseRelative(options) // to parse path commands to relative
+```
+
+For converting the path commands to seperate arrays to have them all exploited:
+```
+const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
+svgjson.parsePath(options)
 ```
 
 ### API
@@ -55,8 +69,15 @@ svgjson({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt',
  You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
-## Version 1.0.0 updates:
-- You can now convert your SVG Icons to SVG Font using the outputFormat parameter
+## Version 1.1.0 updates:
+```
+const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
+
+svgjson.parseAbsolute(options) // to parse path commands to absolute
+svgjson.parseRelative(options) // to parse path commands to relative
+
+svgjson.parsePath(options)
+```
 
 
 Brough to you by [REXFONT](https://rexfont.com)
