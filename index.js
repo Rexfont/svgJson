@@ -62,9 +62,16 @@ function assign(data, {outputFormat}) {
   }
 }
 
+
+function parsePointsParserPrepare(path) {
+  return parseJson(path)
+  .then(path => parseFormat.parseFormat(path, 'absolute'))
+  .then(parse.pathParser)
+}
+
 module.exports = {
   convert,
-  parsePoints: parse.pathParser,
+  parsePoints: parsePointsParserPrepare,
   parseAbsolute: initOptions => parseFormatHandler(initOptions, 'absolute'),
   parseRelative: initOptions => parseFormatHandler(initOptions, 'relative'),
   parsePath: initOptions => parsePath(initOptions.code, {unifySvg: true}),
