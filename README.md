@@ -22,7 +22,7 @@ Specially used for converting SVG file to json and vice versa
 ```
 npm i svgjson
 ```
-To use the module, add the requirement to your file:
+##### To use the module, add the requirement to your file:
 ```
 const svgjson = require('svgjson');
 ```
@@ -30,7 +30,7 @@ Simple Example:
 ```
 svgjson.convert({input: '<svg>'})
 ```
-You can convert all SVG specific tags to PATH by setting -> unify:true
+##### You can convert all SVG specific tags to PATH by setting -> unify:true
 
 example:
 ```
@@ -43,7 +43,7 @@ complete Example:
 svgjson.convert({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true})
 ```
 
-Now you can also directly convert the path all commands to Relative or Absolute
+##### Now you can also directly convert the path all commands to Relative or Absolute
 ```
 const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
 
@@ -51,10 +51,15 @@ svgjson.parseAbsolute(options) // to parse path commands to absolute
 svgjson.parseRelative(options) // to parse path commands to relative
 ```
 
-For converting the path commands to seperate arrays to have them all exploited:
+##### For converting the path commands to seperate arrays to have them all exploited:
 ```
 const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
 svgjson.parsePath(options)
+```
+
+##### Get the contours of the svg pathes:
+
+```
 ```
 
 ### API
@@ -69,7 +74,15 @@ svgjson.parsePath(options)
  You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
-## Version 1.1.0 updates:
+## Version 1.2.0 updates:
+- Adding more module exports to use directly:
+ - parseJson
+ - parseSvg
+ - parseSvgfont
+ - parseAbsoluteDirectly
+ - parseRelativeDirectly
+- When using the parsePoints function to directly convert your PATH to contour, now, you will also recieve the { xMax, xMin, yMax, yMin } in the return
+- Bug fix
 ```
 const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
 
