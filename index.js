@@ -71,5 +71,6 @@ module.exports = {
   parseJson,
   parseSvg,
   parseSvgfont,
-  directFormatParse: parseFormat.parseFormat,
+  parseAbsoluteDirectly: path => parseFormat.parseFormat(path, 'absolute'),
+  parseRelativeDirectly: path => parseFormat.parseFormat(path, 'relative'),
 };
