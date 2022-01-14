@@ -64,8 +64,12 @@ function assign(data, {outputFormat}) {
 
 module.exports = {
   convert,
-  parsePoints: parse.parseContour,
+  parsePoints: parse.pathParser,
   parseAbsolute: initOptions => parseFormatHandler(initOptions, 'absolute'),
   parseRelative: initOptions => parseFormatHandler(initOptions, 'relative'),
-  parsePath: initOptions => parsePath(initOptions.code, {unifySvg: true})
+  parsePath: initOptions => parsePath(initOptions.code, {unifySvg: true}),
+  parseJson,
+  parseSvg,
+  parseSvgfont,
+  directFormatParse: parseFormat.parseFormat,
 };
