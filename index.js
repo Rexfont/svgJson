@@ -49,7 +49,7 @@ function parseFormatHandler(opts, format) {
 function parseFormatHandlerDirectly(path, format) {
   return parseJson.async(path)
   .then(parse.parseContourPath)
-  .then(svgJsonWithContour => parseFormat.directParseFormat(svgJsonWithContour, format))
+  .then(contour => parseFormat.directParseFormat(contour, format))
   .then(parse.attachStrContourDirectly)
 }
 
