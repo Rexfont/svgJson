@@ -36,13 +36,7 @@ function prepare(opts) {
   return opts;
 }
 
-function parseFormatHandler({fullTerm, path, opts, format}) {
-  if(!fullTerm)
-  return parseJson.async(path)
-  .then(parse.parseContourPath)
-  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, format))
-  .then(parse.attachStrContourDirectly)
-  
+function parseFormatHandler(opts, format) {
   return fileHelper.getData(opts)
   .then(parseJson.parse)
   .then(parse.parseContourSvg)
@@ -50,6 +44,13 @@ function parseFormatHandler({fullTerm, path, opts, format}) {
   .then(parse.useContourStr)
   .then(transformedSvg => assign(transformedSvg, opts))
   .then(data => fileHelper.createfile(data, opts))
+}
+
+function parseFormatHandlerDirectly(path, format) {
+  return parseJson.async(path)
+  .then(parse.parseContourPath)
+  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, format))
+  .then(parse.attachStrContourDirectly)
 }
 
 function assign(svg, {outputFormat}) {
@@ -87,8 +88,8 @@ module.exports = {
   parseJson: parseJson.parse,
   parseSvg,
   parseSvgfont,
-  parseAbsoluteDirectly: path => parseFormatHandler({fullTerm: false, path, format: 'absolute'}),
-  parseRelativeDirectly: path => parseFormatHandler({fullTerm: false, path, format: 'relative'}),
+  parseAbsoluteDirectly: path => parseFormatHandlerDirectly(path, 'absolute'),
+  parseRelativeDirectly: path => parseFormatHandlerDirectly(path, 'relative'),
   direcltParseContour: parse.parseContourPath,
   pathGotRelatives: path => getPathType(path, /[n{a-z}]/g),
   pathGotAbsolutes: path => getPathType(path, /[n{A-Z}]/g),
