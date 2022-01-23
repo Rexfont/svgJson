@@ -42,7 +42,7 @@ function parseFormatHandler(initOptions, requestedFormat) {
   const options = prepare(initOptions);
   return fileHelper.getData(options)
   .then(parseJson)
-  .then(data => data.map(tag => parse.parseContour(tag)))
+  .then(data => data.map(tag => parse.parseContourTag(tag)))
   .then(path => parseFormat.parseFormat(path, requestedFormat))
 }
 
@@ -76,5 +76,5 @@ module.exports = {
   parseSvgfont,
   parseAbsoluteDirectly: path => parseFormat.parseFormat(path, 'absolute'),
   parseRelativeDirectly: path => parseFormat.parseFormat(path, 'relative'),
-  direcltParseContour: parse.parseContour
+  direcltParseContour: parse.parseContourPath
 };
