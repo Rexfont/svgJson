@@ -44,6 +44,10 @@ function parseFormatHandler(opt, requestedFormat) {
   .then(parseJson)
   .then(data => data.map(tag => parse.parseContourTag(tag)))
   .then(path => parseFormat.parseFormat(path, requestedFormat))
+  // Transform the result again to the custom format if requested
+  .then(data => assign(data, options))
+  // store result
+  .then(data => fileHelper.createfile(data, options))
 }
 
 function assign(data, {outputFormat}) {
@@ -65,6 +69,13 @@ function parsePointsParserPrepare(path) {
   .then(parse.pathParser)
 }
 
+function getPathType(path, regExp) {
+  const indexes = [];
+  let match;
+  while ((match = regExp.exec(path)) != null) indexes.push(match.index);
+  return indexes;
+}
+
 module.exports = {
   convert,
   parsePoints: parsePointsParserPrepare,
@@ -76,5 +87,7 @@ module.exports = {
   parseSvgfont,
   parseAbsoluteDirectly: path => parseFormat.parseFormat(path, 'absolute'),
   parseRelativeDirectly: path => parseFormat.parseFormat(path, 'relative'),
-  direcltParseContour: parse.parseContourPath
+  direcltParseContour: parse.parseContourPath,
+  pathGotRelatives: path => getPathType(path, /[n{a-z}]/g),
+  pathGotAbsolutes: path => getPathType(path, /[n{A-Z}]/g),
 };
