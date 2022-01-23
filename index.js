@@ -42,12 +42,10 @@ function parseFormatHandler(opt, requestedFormat) {
   const options = prepare(opt);
   return fileHelper.getData(options)
   .then(parseJson)
-  .then(svg => parse.parseContourSvg(svg))
-  .then(svg => parseFormat.parseFormat(svg, requestedFormat))
-  .then(svg => parse.useContourStr(svg))
-  // Transform the result again to the custom format if requested
-  .then(data => assign(data, options))
-  // store result
+  .then(svgJson => parse.parseContourSvg(svgJson))
+  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, requestedFormat))
+  .then(svgJsonWithTransformedContour => parse.useContourStr(svgJsonWithTransformedContour))
+  .then(transformedSvg => assign(transformedSvg, options))
   .then(data => fileHelper.createfile(data, options))
 }
 
