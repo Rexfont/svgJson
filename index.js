@@ -13,16 +13,15 @@ const fileHelper = require('./lib/helpers/file')
  * @param {boolean} unifySvg: Whether the SVG specific tags should be all converted to PATH or not
  * @param {boolean} pathFormat: To declare whether you would like to set the pathes all to absolute or relative or no change
  */
-function convert(opt) {
-  const options = prepare(opt);
+function convert(opts) {
   // check if the data is a file path, then read the file, otherwise, return the string of data(input)
-  return fileHelper.getData(options)
+  return fileHelper.getData(opts)
   // execute the parsePath process
-  .then(data => parsePath(data, options))
+  .then(data => parsePath(data, opts))
   // Transform the result again to the custom format if requested
-  .then(data => assign(data, options))
+  .then(data => assign(data, opts))
   // store result
-  .then(data => fileHelper.createfile(data, options))
+  .then(data => fileHelper.createfile(data, opts))
 }
 
 function prepare(opts) {
@@ -74,11 +73,11 @@ function getPathType(path, regExp) {
 }
 
 module.exports = {
-  convert,
+  convert: opts => convert(prepare(opts)),
   parsePoints: parsePointsParserPrepare,
-  parseAbsolute: opt => parseFormatHandler(prepare(opt), 'absolute'),
-  parseRelative: opt => parseFormatHandler(prepare(opt), 'relative'),
-  parsePath: opt => parsePath(opt.code, {unifySvg: true}),
+  parseAbsolute: opts => parseFormatHandler(prepare(opts), 'absolute'),
+  parseRelative: opts => parseFormatHandler(prepare(opts), 'relative'),
+  parsePath: opts => parsePath(opts.code, {unifySvg: true}),
   parseJson,
   parseSvg,
   parseSvgfont,
