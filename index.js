@@ -49,7 +49,7 @@ function parseFormatHandler(opts, format) {
 function parseFormatHandlerDirectly(path, format) {
   return parseJson.async(path)
   .then(parse.parseContourPath)
-  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, format))
+  .then(svgJsonWithContour => parseFormat.directParseFormat(svgJsonWithContour, format))
   .then(parse.attachStrContourDirectly)
 }
 
@@ -64,7 +64,6 @@ function assign(svg, {outputFormat}) {
     default: return svg;
   }
 }
-
 
 function parsePointsParserPrepare(path) {
   return parseJson.async(path)
