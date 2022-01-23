@@ -37,6 +37,12 @@ function prepare(opts) {
 }
 
 function parseFormatHandler({fullTerm, path, opts, format}) {
+  if(!fullTerm)
+  return parseJson.async(path)
+  .then(parse.parseContourPath)
+  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, format))
+  .then(parse.attachStrContourDirectly)
+  
   return fileHelper.getData(opts)
   .then(parseJson.parse)
   .then(parse.parseContourSvg)
