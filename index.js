@@ -82,8 +82,8 @@ function getPathType(path, regExp) {
 module.exports = {
   convert: opts => convert(prepare(opts)),
   parsePoints: parsePointsParserPrepare,
-  parseAbsolute: opts => parseFormatHandler({fullTerm: true, opts: prepare(opts), format: 'absolute'}),
-  parseRelative: opts => parseFormatHandler({fullTerm: true, opts: prepare(opts), format: 'relative'}),
+  parseAbsolute: opts => parseFormatHandler(prepare(opts),'absolute'),
+  parseRelative: opts => parseFormatHandler(prepare(opts),'relative'),
   parsePath: opts => parsePath(opts.code, {unifySvg: true}),
   parseJson: parseJson.parse,
   parseSvg,
