@@ -37,14 +37,14 @@ function prepare(opts) {
   return opts;
 }
 
-function parseFormatHandler(opt, requestedFormat) {
-  return fileHelper.getData(opt)
+function parseFormatHandler(opts, requestedFormat) {
+  return fileHelper.getData(opts)
   .then(parseJson)
   .then(parse.parseContourSvg)
   .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, requestedFormat))
   .then(parse.useContourStr)
-  .then(transformedSvg => assign(transformedSvg, opt))
-  .then(data => fileHelper.createfile(data, opt))
+  .then(transformedSvg => assign(transformedSvg, opts))
+  .then(data => fileHelper.createfile(data, opts))
 }
 
 function assign(svg, {outputFormat}) {
