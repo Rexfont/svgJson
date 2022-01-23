@@ -1,8 +1,3 @@
-
-/**
- * @author Axoncodes
- */
-
 const parseSvg = require('./lib/parser/parseSvg')
 const parseJson = require('./lib/parser/parseJson')
 const parseSvgfont = require('./lib/parser/parseSvgfont')
@@ -16,6 +11,7 @@ const fileHelper = require('./lib/helpers/file')
  * @param {boolean} outputFormat: the version of outputed data : svg, json, fontSVG
  * @param {string} filename: the name of file the data should be written on
  * @param {boolean} unifySvg: Whether the SVG specific tags should be all converted to PATH or not
+ * @param {boolean} pathFormat: To declare whether you would like to set the pathes all to absolute or relative or no change
  */
 function convert(initOptions) {
   const options = prepare(initOptions);
@@ -29,25 +25,25 @@ function convert(initOptions) {
   .then(data => fileHelper.createfile(data, options))
 }
 
-function prepare(options) {
+function prepare(opts) {
+  if(!opts.input) throw 'No Input declared'
   // default
-  if(!options.unifySvg) options.unifySvg = false;
+  if(!opts.unifySvg) opts.unifySvg = false;
   // default
-  if(!options.outputFormat) options.outputFormat = 'json';
+  if(!opts.outputFormat) opts.outputFormat = 'json';
   // activate the parsePath process if it's 'fontsvg'
-  if(options.outputFormat.toLowerCase() == 'fontsvg') options.unifySvg = true;
+  if(opts.outputFormat.toLowerCase() == 'fontsvg') opts.unifySvg = true;
 
-  return options;
+  return opts;
 }
 
 function parseFormatHandler(initOptions, requestedFormat) {
+  if(!requestedFormat) return options.input
   const options = prepare(initOptions);
   return fileHelper.getData(options)
   .then(parseJson)
   .then(data => data.map(tag => parse.parseContour(tag)))
   .then(path => parseFormat.parseFormat(path, requestedFormat))
-  .then(data => assign(data, options))
-  .then(data => fileHelper.createfile(data, options))
 }
 
 function assign(data, {outputFormat}) {
@@ -80,4 +76,5 @@ module.exports = {
   parseSvgfont,
   parseAbsoluteDirectly: path => parseFormat.parseFormat(path, 'absolute'),
   parseRelativeDirectly: path => parseFormat.parseFormat(path, 'relative'),
+  direcltParseContour: parse.parseContour
 };
