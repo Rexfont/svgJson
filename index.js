@@ -38,15 +38,13 @@ function prepare(opts) {
 }
 
 function parseFormatHandler(opt, requestedFormat) {
-  if(!requestedFormat) return options.input
-  const options = prepare(opt);
-  return fileHelper.getData(options)
+  return fileHelper.getData(opt)
   .then(parseJson)
-  .then(svgJson => parse.parseContourSvg(svgJson))
+  .then(parse.parseContourSvg)
   .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, requestedFormat))
-  .then(svgJsonWithTransformedContour => parse.useContourStr(svgJsonWithTransformedContour))
-  .then(transformedSvg => assign(transformedSvg, options))
-  .then(data => fileHelper.createfile(data, options))
+  .then(parse.useContourStr)
+  .then(transformedSvg => assign(transformedSvg, opt))
+  .then(data => fileHelper.createfile(data, opt))
 }
 
 function assign(data, {outputFormat}) {
@@ -78,8 +76,8 @@ function getPathType(path, regExp) {
 module.exports = {
   convert,
   parsePoints: parsePointsParserPrepare,
-  parseAbsolute: opt => parseFormatHandler(opt, 'absolute'),
-  parseRelative: opt => parseFormatHandler(opt, 'relative'),
+  parseAbsolute: opt => parseFormatHandler(prepare(opt), 'absolute'),
+  parseRelative: opt => parseFormatHandler(prepare(opt), 'relative'),
   parsePath: opt => parsePath(opt.code, {unifySvg: true}),
   parseJson,
   parseSvg,
