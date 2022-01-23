@@ -47,15 +47,15 @@ function parseFormatHandler(opt, requestedFormat) {
   .then(data => fileHelper.createfile(data, opt))
 }
 
-function assign(data, {outputFormat}) {
+function assign(svg, {outputFormat}) {
   // skip if there is no outputFormat set
-  if(!outputFormat) return data;
+  if(!outputFormat) return svg;
 
   switch(outputFormat.toLowerCase()) {
-    case 'svg': return parseSvg(data)
-    case 'json': return parseJson(data)
-    case 'fontsvg': return parseSvgfont(data)
-    default: return data;
+    case 'svg': return parseSvg(svg)
+    case 'json': return parseJson(svg)
+    case 'fontsvg': return parseSvgfont(svg)
+    default: return svg;
   }
 }
 
