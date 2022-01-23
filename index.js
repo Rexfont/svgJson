@@ -36,11 +36,11 @@ function prepare(opts) {
   return opts;
 }
 
-function parseFormatHandler(opts, requestedFormat) {
+function parseFormatHandler({fullTerm, path, opts, format}) {
   return fileHelper.getData(opts)
-  .then(parseJson)
+  .then(parseJson.parse)
   .then(parse.parseContourSvg)
-  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, requestedFormat))
+  .then(svgJsonWithContour => parseFormat.parseFormat(svgJsonWithContour, format))
   .then(parse.useContourStr)
   .then(transformedSvg => assign(transformedSvg, opts))
   .then(data => fileHelper.createfile(data, opts))
@@ -52,7 +52,7 @@ function assign(svg, {outputFormat}) {
 
   switch(outputFormat.toLowerCase()) {
     case 'svg': return parseSvg(svg)
-    case 'json': return parseJson(svg)
+    case 'json': return parseJson.parse(svg)
     case 'fontsvg': return parseSvgfont(svg)
     default: return svg;
   }
@@ -60,7 +60,7 @@ function assign(svg, {outputFormat}) {
 
 
 function parsePointsParserPrepare(path) {
-  return parseJson(path)
+  return parseJson.async(path)
   .then(path => parseFormat.parseFormat(path, 'absolute'))
   .then(parse.pathParser)
 }
@@ -75,14 +75,14 @@ function getPathType(path, regExp) {
 module.exports = {
   convert: opts => convert(prepare(opts)),
   parsePoints: parsePointsParserPrepare,
-  parseAbsolute: opts => parseFormatHandler(prepare(opts), 'absolute'),
-  parseRelative: opts => parseFormatHandler(prepare(opts), 'relative'),
+  parseAbsolute: opts => parseFormatHandler({fullTerm: true, opts: prepare(opts), format: 'absolute'}),
+  parseRelative: opts => parseFormatHandler({fullTerm: true, opts: prepare(opts), format: 'relative'}),
   parsePath: opts => parsePath(opts.code, {unifySvg: true}),
-  parseJson,
+  parseJson: parseJson.parse,
   parseSvg,
   parseSvgfont,
-  parseAbsoluteDirectly: path => parseFormat.parseFormat(path, 'absolute'),
-  parseRelativeDirectly: path => parseFormat.parseFormat(path, 'relative'),
+  parseAbsoluteDirectly: path => parseFormatHandler({fullTerm: false, path, format: 'absolute'}),
+  parseRelativeDirectly: path => parseFormatHandler({fullTerm: false, path, format: 'relative'}),
   direcltParseContour: parse.parseContourPath,
   pathGotRelatives: path => getPathType(path, /[n{a-z}]/g),
   pathGotAbsolutes: path => getPathType(path, /[n{A-Z}]/g),
