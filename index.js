@@ -42,8 +42,9 @@ function parseFormatHandler(opt, requestedFormat) {
   const options = prepare(opt);
   return fileHelper.getData(options)
   .then(parseJson)
-  .then(data => data.map(tag => parse.parseContourTag(tag)))
-  .then(path => parseFormat.parseFormat(path, requestedFormat))
+  .then(svg => svg.map(tag => parse.parseContourTag(tag)))
+  .then(svg => parseFormat.parseFormat(svg, requestedFormat))
+  .then(svg => parse.useContourStr(svg))
   // Transform the result again to the custom format if requested
   .then(data => assign(data, options))
   // store result
