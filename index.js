@@ -67,8 +67,7 @@ function assign(svg, {outputFormat}) {
 
 function parsePointsParserPrepare(path) {
   return parseJson.async(path)
-  .then(path => parseFormat.parseFormat(path, 'absolute'))
-  .then(parse.pathParser)
+  .then(parse.parseContourPath)
 }
 
 function getPathType(path, regExp) {
