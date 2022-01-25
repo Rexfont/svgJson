@@ -5,6 +5,7 @@ const parsePath = require('./lib/parser/parsePath')
 const parseFormat = require('./lib/parser/parseFormat')
 const parse = require('./lib/helpers/parse')
 const fileHelper = require('./lib/helpers/file')
+const tools = require('./lib/helpers/tools')
 
 /**
  * @param {string/file} input : the path to file or string as data
