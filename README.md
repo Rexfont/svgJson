@@ -22,7 +22,7 @@ Specially used for converting SVG file to json and vice versa
 ```
 npm i svgjson
 ```
-To use the module, add the requirement to your file:
+##### To use the module, add the requirement to your file:
 ```
 const svgjson = require('svgjson');
 ```
@@ -30,7 +30,7 @@ Simple Example:
 ```
 svgjson.convert({input: '<svg>'})
 ```
-You can convert all SVG specific tags to PATH by setting -> unify:true
+##### You can convert all SVG specific tags to PATH by setting -> unify:true
 
 example:
 ```
@@ -43,7 +43,7 @@ complete Example:
 svgjson.convert({input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true})
 ```
 
-Now you can also directly convert the path all commands to Relative or Absolute
+##### Now you can also directly convert the path all commands to Relative or Absolute
 ```
 const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
 
@@ -51,10 +51,30 @@ svgjson.parseAbsolute(options) // to parse path commands to absolute
 svgjson.parseRelative(options) // to parse path commands to relative
 ```
 
-For converting the path commands to seperate arrays to have them all exploited:
+##### For converting the path commands to seperate arrays to have them all exploited:
 ```
 const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
 svgjson.parsePath(options)
+```
+
+##### Get the contours of the svg pathes:
+- direcltParseContour
+```
+svgjson.direcltParseContour(path)
+```
+- When using the parsePoints function to directly convert your PATH to contour, now, you will also recieve the { xMax, xMin, yMax, yMin } in the return
+
+```
+svgjson.parsePath(options)
+```
+##### parse use directly:
+ - parseJson
+ - parseSvg
+ - parseSvgfont
+ - parseAbsoluteDirectly
+ - parseRelativeDirectly
+```
+svgjson.parseAbsoluteDirectly('M527.62,0c-80.7,61.1-227.63,252.22-190.29,322.65s244.78-6.5,325.48-67.6,115.86-167.72,78.53-238.15S1094.52,574.19,1013.81,635.28Z')
 ```
 
 ### API
@@ -69,15 +89,12 @@ svgjson.parsePath(options)
  You can use the interface powerd by API: https://rexfont.com/svgjson/
 
 
-## Version 1.1.0 updates:
-```
-const options = {input: 'filepath/string', outputFormat: 'svg', filename: 'example.txt', unify: true}
+## Version 1.3.0 updates:
 
-svgjson.parseAbsolute(options) // to parse path commands to absolute
-svgjson.parseRelative(options) // to parse path commands to relative
-
-svgjson.parsePath(options)
-```
+- matrix transformer implemented into the 'parseSvgfont'
+- pathGotRelatives(path)
+- pathGotAbsolutes(path)
+- Bug fix
 
 
 Brough to you by [REXFONT](https://rexfont.com)
