@@ -97,4 +97,4 @@ svgjson.parseAbsoluteDirectly('M527.62,0c-80.7,61.1-227.63,252.22-190.29,322.65s
 - Bug fix
 
 
-Brough to you by [REXFONT](https://rexfont.com)
+Brought to you by [REXFONT](https://rexfont.com)
