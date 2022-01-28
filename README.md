@@ -22,6 +22,12 @@ Specially used for converting SVG file to json and vice versa
 ```
 npm i svgjson
 ```
+
+## Version 1.4.0 updates:
+ - In the parseJson, the styles are being exploited into class names and values as well as each css property used
+ - In the parseSvgfont, the class attributes are being replaced with the styles of the class
+    - It also identifies the the actual tag that takes style (glyphs) and uses the styles for those, even if the class is used on a g tag outside of the glyph
+
 ##### To use the module, add the requirement to your file:
 ```
 const svgjson = require('svgjson');
@@ -76,6 +82,12 @@ svgjson.parsePath(options)
 ```
 svgjson.parseAbsoluteDirectly('M527.62,0c-80.7,61.1-227.63,252.22-190.29,322.65s244.78-6.5,325.48-67.6,115.86-167.72,78.53-238.15S1094.52,574.19,1013.81,635.28Z')
 ```
+##### matrix transformer
+matrix transformer implemented into the 'parseSvgfont'
+
+##### figure out whether the path is relative or absolute
+- pathGotRelatives(path)
+- pathGotAbsolutes(path)
 
 ### API
 - Link: https://rexfont.com/svgjson/convert
@@ -87,14 +99,6 @@ svgjson.parseAbsoluteDirectly('M527.62,0c-80.7,61.1-227.63,252.22-190.29,322.65s
 
 ### Web Interface
  You can use the interface powerd by API: https://rexfont.com/svgjson/
-
-
-## Version 1.3.0 updates:
-
-- matrix transformer implemented into the 'parseSvgfont'
-- pathGotRelatives(path)
-- pathGotAbsolutes(path)
-- Bug fix
 
 
 Brought to you by [REXFONT](https://rexfont.com)
