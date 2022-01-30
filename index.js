@@ -53,14 +53,14 @@ function parseFormatHandlerDirectly(path, format) {
   .then(parse.attachStrContourDirectly)
 }
 
-function assign(svg, {outputFormat}) {
+function assign(svg, {outputFormat, fontname, unicodePrefix}) {
   // skip if there is no outputFormat set
   if(!outputFormat) return svg;
 
   switch(outputFormat.toLowerCase()) {
     case 'svg': return parseSvg(svg)
     case 'json': return parseJson.parse(svg)
-    case 'fontsvg': return parseSvgfont(svg)
+    case 'fontsvg': return parseSvgfont(svg, unicodePrefix, fontname)
     default: return svg;
   }
 }
