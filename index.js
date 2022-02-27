@@ -91,4 +91,10 @@ module.exports = {
   direcltParseContour: parse.parseContourPath,
   pathGotRelatives: path => getPathType(path, /[n{a-z}]/g),
   pathGotAbsolutes: path => getPathType(path, /[n{A-Z}]/g),
+  getClassesEncode: parse.getClassesEncode,
+  encodeClasses: parse.encodeClasses,
+  extractGlyphSets: parse.extractGlyphSets,
+  extractPathes: parse.extractPathes,
+  extractStyles: parse.extractStyles,
+  extractGlyphs: parse.extractGlyphs,
 };
