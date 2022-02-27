@@ -1,6 +1,6 @@
 {
   "name": "svgjson",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "main": "index.js",
   "description": "Convert any SVG file to JSON and font svg",
   "keywords": [
@@ -28,7 +28,7 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "@axoncodes/xjs": "^0.0.1",
+    "@axoncodes/xjs": "^1.0.2",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
