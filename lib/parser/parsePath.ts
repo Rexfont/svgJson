@@ -1,6 +1,6 @@
 const parseJson = require('./parseJson');
 
-function parsePath(data, {unifySvg}) {
+export default function parsePath(data, {unifySvg}) {
   console.info('convertAllToPath');
   if(!data || data.length==0) throw 'invalid input in convertAllToPath'
   // skip the process if the unifySvg is false
@@ -170,5 +170,3 @@ class svgTo {
     return 'M' + attributes.points + 'Z';
   }
 }
-
-module.exports = parsePath;

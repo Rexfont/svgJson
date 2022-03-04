@@ -1,9 +1,9 @@
-const tools = require('../helpers/tools')
+import {exploit} from '../helpers/tools';
 
-function expandShortenedCommands(path) {
+export default function expandShortenedCommands(path) {
   const symbol = path[0];
   path = path.substring(1, path.length).trim();
-  return extract(tools.exploit(path, /[ ]/g), getCommandExpectedLength(symbol))
+  return extract(exploit(path, /[ ]/g), getCommandExpectedLength(symbol))
   .map(command => `${symbol} ${command.join(' ')}`)
 }
 
@@ -33,5 +33,3 @@ function extract(contours, offset) {
   for (let i = 0; i < clength/offset; i++) ans.push(contours.splice(0, offset))
   return ans
 }
-
-module.exports = expandShortenedCommands

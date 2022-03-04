@@ -1,7 +1,7 @@
 const tools = require('../helpers/tools');
 // const expand = require('../helpers/expandCommand');
 
-function parseFormat(font, output) {
+export function parseFormat(font, output) {
   return font.map((item, key) =>
     font[key] = item.contours ?
     {
@@ -11,19 +11,19 @@ function parseFormat(font, output) {
   );
 }
 
-function directParseFormat(contours, output) {
+export function directParseFormat(contours, output) {
   return assign(contours, output)
 }
-function directParseFormatAsync(contours, output) {
+export function directParseFormatAsync(contours, output) {
   return Promise.resolve(directParseFormat(contours, output))
 }
 
-function assign(glyph, output) {
+export function assign(glyph, output) {
   let GX=0; let GY=0; const contours = [];
   let tmpglyph = glyph;
   tmpglyph.forEach((point) => {
     // convert
-    const parsed = process(point, output, GX, GY);
+    const parsed:any = processParse(point, output, GX, GY);
     // store the global x and y based on the local x/y of each path command
     GX = (typeof parsed.localx == null || typeof parsed.localx == 'undefined') ? GX : parsed.localx;
     GY = (typeof parsed.localy == null || typeof parsed.localy == 'undefined') ? GY : parsed.localy;
@@ -33,7 +33,7 @@ function assign(glyph, output) {
   return contours;
 }
 
-function process(point, output, gx, gy) {
+export function processParse(point, output, gx, gy) {
   // is the the requested format and the current format were the same, then no change is required
   const outputBool = output==='absolute';
   const isAbs = tools.isAbs(point[0]);
@@ -65,7 +65,7 @@ function generalTranform(point, g, name, tmpIsAbs, outputBool, init) {
     // figure the symbol of the coordinate based on the SET
     const symbol = SET ? 'y' : 'x';
     // figure the coordinates set count
-    const setNum = (key+2 >= point.length ? '' : (key/2 - (SET ? 0.5 : 0)) + 1);
+    const setNum:any = (key+2 >= point.length ? '' : (key/2 - (SET ? 0.5 : 0)) + 1);
     if (!setNum.length) ans[`local${symbol}`] = coordinate + (outputBool ? init[SET] : (tmpIsAbs ? g[SET] : 0));
     // combine the sy,bol and set num and then addup the current coordinate with the global x or y
     ans.data[`${symbol}${setNum}`] = coordinate + (outputBool ? init[SET] : -init[SET]);
@@ -117,14 +117,7 @@ function h(point, g, name, tmpIsAbs, outputBool, init) {
   });
 }
 
-module.exports = {
-  parseFormat,
-  assign,
-  process,
-  directParseFormat,
-  directParseFormatAsync,
-  parseFormatRelative: font => parseFormat(font, 'relative'),
-  parseFormatAbsolute: font => parseFormat(font, 'absolute'),
-  parseFormatRelativeDirectly: contour => assign(contour, 'relative'),
-  parseFormatAbsoluteDirectly: contour => assign(contour, 'absolute'),
-};
+export function parseFormatRelative(font) { return parseFormat(font, 'relative') }
+export function parseFormatAbsolute(font) { return parseFormat(font, 'absolute') }
+export function parseFormatRelativeDirectly(contour) { return assign(contour, 'relative') }
+export function parseFormatAbsoluteDirectly(contour) { return assign(contour, 'absolute') }

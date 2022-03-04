@@ -1,7 +1,7 @@
 const validator = require('../helpers/validator')
 const tools = require('../helpers/tools')
 
-function parseSvg(data) {
+export default function parseSvg(data) {
   console.log('jsontosvg');
   if (!data || data.length == 0) throw 'Invalid DATA';
   // check if it is already svg
@@ -39,5 +39,3 @@ function attachCommonTag(data) {
     content += data.content;
   return content;
 }
-
-module.exports = parseSvg;

@@ -1,19 +1,19 @@
-const tools = require('../helpers/tools')
-const validator = require('../helpers/validator')
-const parse = require('../helpers/parse')
-const parseFormat = require('./parseFormat')
-const xjs = require('@axoncodes/xjs');
+import {isSvg, exploit} from '../helpers/tools';
+import {jsonValidation} from '../helpers/validator';
+import {extractStyles, parseContourAsync, glyphMatrix, attachStrContourDirectly, roundup} from '../helpers/parse';
+import {parseFormatAbsoluteDirectly} from './parseFormat';
+import xjs from '@axoncodes/xjs';
 
-function parseSvgfont(data, unicodePrefix, fontname) {
+export default function parseSvgfont(data, unicodePrefix, fontname) {
   console.log('svgicontosvgfont');
   if(!data) throw 'Invalid Data to convert';
-  if(tools.isSvg(data)) throw 'The DATA is expected to be JSON'
+  if(isSvg(data)) throw 'The DATA is expected to be JSON'
 
-  return validator.jsonValidation(data)
+  return jsonValidation(data)
   .then(async data => {
     const dimentions = getDimensions(data);
     const glyphs = await extractGlyphs(data, dimentions.height);
-    const styles = parse.extractStyles(data)[0]
+    const styles = extractStyles(data)[0]
     return { styles, dimentions, glyphs }
   })
   .then(({ styles, dimentions, glyphs }) => 
@@ -28,7 +28,7 @@ function parseSvgfont(data, unicodePrefix, fontname) {
 }
 
 function getDimensions(data) {
-  let width = height = 0;
+  let width=0, height=0
   data.forEach(tag=>{
     if (tag.attributes && tag.attributes.viewBox) {
       width = tag.attributes.viewBox[2];
@@ -40,14 +40,14 @@ function getDimensions(data) {
 
 function combineGTags(svgJson) {
   let gTagOpen = false
-  let gTagInfo = {}
+  let gTagInfo:any
   return svgJson.map(tag => {
     if (tag.tag.indexOf('g') == 0) {
       gTagInfo = tag
       gTagOpen = true
     } else if (tag.tag.indexOf('/g') == 0) gTagOpen = false
-
-    if (tag.tag.indexOf('path') == 0 && gTagOpen) tag.attributes.class += ` ${gTagInfo.attributes.class}`
+    
+    if (tag.tag.indexOf('pSath') == 0 && gTagOpen) tag.attributes.class += ` ${gTagInfo.attributes.class}`
     
     return tag
   })
@@ -82,6 +82,8 @@ function stackthedata({glyphs, styles, fontname='rexfont', unicodePrefix='RX', d
   content += `<missing-glyph horiz-adv-x="${0}" />\n`;
   let rxcode = 0;
   let unicodeBase = ''
+  let count = 0
+  let order = 0
   glyphs.forEach((glyph, i) => {
     if (glyph.attributes.rxcode != rxcode) {
       count = 0
@@ -92,7 +94,7 @@ function stackthedata({glyphs, styles, fontname='rexfont', unicodePrefix='RX', d
     content += 
     `<glyph
       ${glyph.attributes && glyph.attributes.class ? 
-        tools.exploit(glyph.attributes.class, /[ ]/g).map(sclass => styles[sclass].map(item => item.join('="')).join('" ')+'"').join(' ')
+        exploit(glyph.attributes.class, /[ ]/g).map(sclass => styles[sclass].map(item => item.join('="')).join('" ')+'"').join(' ')
         : ""
       }
       glyph-name="icon${i}"
@@ -112,9 +114,9 @@ function stackthedata({glyphs, styles, fontname='rexfont', unicodePrefix='RX', d
 }
 
 function prepare(path, height) {
-  return parse.parseContourAsync(path)
-  .then(parseFormat.parseFormatAbsoluteDirectly)
-  .then(contours => parse.glyphMatrix(contours, 1, 0, 0, -1, 0, height))
+  return parseContourAsync(path)
+  .then(parseFormatAbsoluteDirectly)
+  .then(contours => glyphMatrix(contours, 1, 0, 0, -1, 0, height))
   .then(getWidth)
   .then(roundup)
   .then(putBackTheArrsAsObjs)
@@ -123,14 +125,14 @@ function prepare(path, height) {
 
 function attachStrContourDirectly(json) {
   return {
-    arr: parse.attachStrContourDirectly(json.arr),
+    arr: attachStrContourDirectly(json.arr),
     max: json.max,
     min: json.min,
   }
 }
 
 function roundup(json) {
-  const rounded = parse.roundup(json.contoursArr)
+  const rounded = roundup(json.contoursArr)
   return {
     rounded,
     max: json.max,
@@ -168,5 +170,3 @@ function putBackTheArrsAsObjs(json) {
     min: json.min,
   };
 }
-
-module.exports = parseSvgfont;

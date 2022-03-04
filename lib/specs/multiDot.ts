@@ -1,12 +1,12 @@
-const tools = require('../helpers/tools')
+import {exploit} from '../helpers/tools';
 
-function multiDot(path) {
+export function multiDot(path) {
   let resolvedDots = '';
   const symbol = path[0];
   path = path.substring(1, path.length).trim();
-  tools.exploit(path, /[n{a-zA-Z} -]/g).forEach(coord => {
+  exploit(path, /[n{a-zA-Z} -]/g).forEach(coord => {
     if (coord.indexOf('.') == 0) coord = `0${coord}`
-    const dotArr = tools.exploit(coord, /[.]/g)
+    const dotArr = exploit(coord, /[.]/g)
     if (dotArr.length < 3) {
       resolvedDots += `${coord} `
     } else {
@@ -17,11 +17,6 @@ function multiDot(path) {
   return `${symbol} ${resolvedDots}`
 }
 
-async function multiDotSync(path) {
+export async function multiDotSync(path) {
   return multiDot(path)
-}
-
-module.exports = {
-  multiDot,
-  multiDotSync
 }

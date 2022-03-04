@@ -1,25 +1,25 @@
-const xjs = require('@axoncodes/xjs')
+import xjs from '@axoncodes/xjs';
 
-function lookupNaN(jsonData) {
+export function lookupNaN(jsonData) {
   jsonData.forEach(tag => {
     if (xjs.if(tag, 'tag.attributes.d')) return tag.attributes.d.indexOf('NaN')
   });
 }
 
-function isCap(char) {
+export function isCap(char) {
   if (char == char.toUpperCase()) return true;
   return false;
 }
 
-function isAbs(point){
+export function isAbs(point){
   return isCap(point[0])
 }
 
-function isSvg(data) {
+export function isSvg(data) {
   return data.indexOf('<') == 0
 }
 
-function repeatesF(data) {
+export function repeatesF(data) {
   var obj={}
   for(let x = 0, length = data.length; x < length; x++) {
       var l = data.charAt(x)
@@ -28,15 +28,15 @@ function repeatesF(data) {
   return obj
 }
 
-function isFile(data) {
+export function isFile(data) {
   return !data.match(/[^n{a-z,A-Z,0-9},.,/,:,\\,_,-,  , -]/)
 }
 
-function removecommas(str) {
+export function removecommas(str) {
   return str.replace(/,/g, ' ');
 }
 
-function exploit(value, regExp) {
+export function exploit(value, regExp) {
   const indexes = [0];
   const ans = [];
   let match;
@@ -49,15 +49,4 @@ function exploit(value, regExp) {
     if (result.trim().length>0) ans.push(result.trim());
   }
   return ans
-}
-
-module.exports = {
-  lookupNaN,
-  isCap,
-  isAbs,
-  isSvg,
-  repeatesF,
-  isFile,
-  removecommas,
-  exploit,
 }

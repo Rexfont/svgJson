@@ -1,7 +1,7 @@
 const validator = require('../helpers/validator')
 const tools = require('../helpers/tools')
 
-function parse(data) {
+export function parseJson(data) {
 
   console.log('svgtojson');
   if (!data || data.length == 0) throw 'Invalid data';
@@ -14,8 +14,8 @@ function parse(data) {
 
 }
 
-function async(data) {
-  return Promise.resolve(parse(data))
+export function parseJsonAsync(data) {
+  return Promise.resolve(parseJson(data))
 }
 
 function tagExtractor(data) {
@@ -93,7 +93,7 @@ class extractor {
 
   static attr(data) {
     if (!data || data.length == 0) return null;
-    const result = {attributes: {}, attrLess: []};
+    const result:any = {attributes: {}, attrLess: []};
     const tmpAttrs = [];
 
     // extract the extra data exept body of tag
@@ -199,8 +199,3 @@ function concatAllElements(arr) {
   arr.forEach((element, key) => { tmpArr += element })
   return tmpArr;
 }
-
-module.exports = {
-  parse,
-  async,
-};

@@ -1,8 +1,10 @@
 {
   "name": "svgjson",
   "version": "1.5.2",
-  "main": "index.js",
   "description": "Convert any SVG file to JSON and font svg",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "prepublish": "tsc",
   "keywords": [
     "svg",
     "xml",
@@ -29,6 +31,7 @@
   },
   "dependencies": {
     "@axoncodes/xjs": "^1.1.0",
+    "@types/node": "^17.0.21",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
