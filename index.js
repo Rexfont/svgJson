@@ -77,6 +77,37 @@ function getPathType(path, regExp) {
   return indexes;
 }
 
+async function mergeSvgs(svgFiles, namesMode) {
+  let content = ''
+  // get informations
+  const svgsData = await fileHelper.readFiles(svgFiles).then(svgsData => parse.encodeClasses(svgsData))
+  const svgsPathes = svgsData.map(parse.extractPathes)
+  const svgsStyles = svgsData.map(parse.extractStyles)
+
+  // generate the singular svg file
+  content += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${svgsData[0][0].attributes.viewBox.toString().replaceAll(',', ' ')}>\n`
+  content += `<defs>`
+  if (svgsStyles.flat().flat().length > 0) {
+    content += `<style>`
+    svgsStyles.flat().flat().forEach(style => {
+      content += `${style[0]} {`
+      style[1].forEach(properties => {
+        if (properties && properties.length)
+          content += `${properties.toString().replaceAll(',', ':')};`
+      }); content += `}\n`
+    }); content += `</style>`
+  }; content += `</defs>`
+  svgsPathes.forEach((pathes, count) => {
+    pathes.forEach(path => {
+      let cclass = path.attributes && path.attributes.class ? path.attributes.class  : ''
+      content += path.tag == 'path' ? `<path ${namesMode ? `name="${namesMode[count]}"` : ''} class="${cclass}" rxcode="${count}" d="${path.attributes.d}"/>\n` : (path.tag == 'g' ? `<${path.tag} class="${cclass}">` : '</g>')
+    })
+  })
+  content += `</svg>`
+
+  return content
+}
+
 module.exports = {
   convert: opts => convert(prepare(opts)),
   parsePoints: parsePointsParserPrepare,
@@ -97,4 +128,5 @@ module.exports = {
   extractPathes: parse.extractPathes,
   extractStyles: parse.extractStyles,
   extractGlyphs: parse.extractGlyphs,
+  mergeSvgs,
 };
