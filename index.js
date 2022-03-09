@@ -4,6 +4,7 @@ const parseSvgfont = require('./lib/parser/parseSvgfont')
 const parsePath = require('./lib/parser/parsePath')
 const parseFormat = require('./lib/parser/parseFormat')
 const parse = require('./lib/helpers/parse')
+const propertyHandler = require('./lib/helpers/propertyHandler')
 const fileHelper = require('./lib/helpers/file')
 
 /**
@@ -100,7 +101,7 @@ async function mergeSvgs(svgFiles, namesMode) {
   svgsPathes.forEach((pathes, count) => {
     pathes.forEach(path => {
       let cclass = path.attributes && path.attributes.class ? path.attributes.class  : ''
-      content += path.tag == 'path' ? `<path ${namesMode ? `name="${namesMode[count]}"` : ''} class="${cclass}" rxcode="${count}" d="${path.attributes.d}"/>\n` : (path.tag == 'g' ? `<${path.tag} class="${cclass}">` : '</g>')
+      content += path.tag == 'path' ? `<path ${namesMode ? `name="${namesMode[count]}"` : ''} class="${cclass.replaceAll(/[.]/g, '')}" rxcode="${count}" d="${path.attributes.d}"/>\n` : (path.tag == 'g' ? `<${path.tag} class="${cclass}">` : '</g>')
     })
   })
   content += `</svg>`
@@ -115,6 +116,7 @@ module.exports = {
   parseRelative: opts => parseFormatHandler(prepare(opts),'relative'),
   parsePath: opts => parsePath(opts.code, {unifySvg: true}),
   parseJson: parseJson.parse,
+  parseJsonSync: parseJson.async,
   parseSvg,
   parseSvgfont,
   parseAbsoluteDirectly: path => parseFormatHandlerDirectly(path, 'absolute'),
@@ -129,4 +131,6 @@ module.exports = {
   extractStyles: parse.extractStyles,
   extractGlyphs: parse.extractGlyphs,
   mergeSvgs,
+  colorHandler: propertyHandler.colorHandler,
+  sizeHandler: propertyHandler.sizeHandler,
 };
