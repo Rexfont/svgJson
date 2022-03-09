@@ -89,8 +89,10 @@ matrix transformer implemented into the 'parseSvgfont'
 - pathGotRelatives(path)
 - pathGotAbsolutes(path)
 
-### Upgrades
-Process multiple icons
+##### Able to Process multiple icons
+
+### Upgrades 2.0.0
+- able to handle advanced styles
 
 ### API
 - Link: https://rexfont.com/svgjson/convert
