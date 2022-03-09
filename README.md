@@ -92,7 +92,14 @@ matrix transformer implemented into the 'parseSvgfont'
 ##### Able to Process multiple icons
 
 ### Upgrades 2.0.0
-- able to handle advanced styles
+Advanced style handler separate requests to add new styles to svgjson.
+It takes care of the every aspect of the style(color, font size).
+#### example
+the svgjson is supposed to be json format created through convert method
+```
+svgjson = svgjson.colorHandler(svgjson, '#000')
+svgjson = svgjson.sizeHandler(svgjson, '120')
+```
 
 ### API
 - Link: https://rexfont.com/svgjson/convert
