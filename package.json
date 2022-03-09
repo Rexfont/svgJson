@@ -1,6 +1,6 @@
 {
   "name": "svgjson",
-  "version": "1.5.2",
+  "version": "2.0.0",
   "main": "index.js",
   "description": "Convert any SVG file to JSON and font svg",
   "keywords": [
