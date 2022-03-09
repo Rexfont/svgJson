@@ -91,10 +91,15 @@ matrix transformer implemented into the 'parseSvgfont'
 
 ##### Able to Process multiple icons
 
-### Upgrades 2.0.0
-Advanced style handler separate requests to add new styles to svgjson.
-It takes care of the every aspect of the style(color, font size).
-#### example
+### Upgrades on 2.0.0
+- Merge multiple svgs to a single file
+    - example:
+    ```
+        svgjson.mergeSvgs([file_address1, file_address2, file_address3, ...])
+    ```
+- Advanced style handler separate requests to add new styles to svgjson.
+    - It takes care of the every aspect of the style(color, font size).
+    - example:
 the svgjson is supposed to be json format created through convert method
 ```
 svgjson = svgjson.colorHandler(svgjson, '#000')
