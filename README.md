@@ -95,13 +95,13 @@ matrix transformer implemented into the 'parseSvgfont'
 - Merge multiple svgs to a single svg data, input will be an array of svg tag (the content of svg files) format of the svgs to merge
     - simple example:
     ```
-        svgjson.mergeSvgs(svgjsons)
+        svgjson.mergeSvgs(svgsData)
     ```
     - practical example:
     ```
-        <!-- convert the svg file to svgjsons -->
+        <!-- convert the svg file to svgsData -->
         svgjson.readFiles([svgfile_address1, svgfile_address2, svgfile_address3, ...])
-        .then(svgjsons => svgjson.mergeSvgs(svgjsons)
+        .then(svgsData => svgjson.mergeSvgs(svgsData)
     ```
 - Advanced style handler separate requests to add new styles to svgjson.
     - It takes care of the every aspect of the style(color, font size).
