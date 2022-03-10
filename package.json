@@ -1,6 +1,6 @@
 {
   "name": "svgjson",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "main": "index.js",
   "description": "Convert any SVG file to JSON and font svg",
   "keywords": [
@@ -37,7 +37,7 @@
     "lodash": "^4.17.21",
     "morgan": "~1.9.1",
     "multer": "^1.4.3",
-    "server": "^1.0.36"
+    "server": "^0.0.3"
   },
   "devDependencies": {
     "eslint": "^8.6.0",
