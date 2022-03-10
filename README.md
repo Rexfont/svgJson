@@ -113,7 +113,7 @@ matrix transformer implemented into the 'parseSvgfont'
     ```
 
 ### API
-- Link: https://rexfont.com/svgjson/convert
+- Link: https://api.rexfont.com/svgjson/convert
 - Method: POST
 - data type: form-data
 - parameters:
@@ -121,7 +121,7 @@ matrix transformer implemented into the 'parseSvgfont'
     - code: paste the code directly
 
 ### Web Interface
- You can use the interface powerd by API: https://rexfont.com/svgjson/
+ You can use the interface powerd by API: https://api.rexfont.com/svgjson/
 
 
 Brought to you by [REXFONT](https://rexfont.com)
