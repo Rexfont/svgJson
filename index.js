@@ -78,10 +78,11 @@ function getPathType(path, regExp) {
   return indexes;
 }
 
-async function mergeSvgs(svgFiles, namesMode) {
+async function mergeSvgs(svgsDataIn, namesMode=false) {
   let content = ''
   // get informations
-  const svgsData = await fileHelper.readFiles(svgFiles).then(svgsData => parse.encodeClasses(svgsData))
+  const svgsData = await Promise.all(svgsDataIn.map(svgdata => parseJson.async(svgdata)))
+  .then(svgsData => parse.encodeClasses(svgsData))
   const svgsPathes = svgsData.map(parse.extractPathes)
   const svgsStyles = svgsData.map(parse.extractStyles)
 
@@ -133,4 +134,5 @@ module.exports = {
   mergeSvgs,
   colorHandler: propertyHandler.colorHandler,
   sizeHandler: propertyHandler.sizeHandler,
+  readFiles: fileHelper.readFiles,
 };

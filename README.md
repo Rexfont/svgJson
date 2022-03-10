@@ -92,19 +92,25 @@ matrix transformer implemented into the 'parseSvgfont'
 ##### Able to Process multiple icons
 
 ### Upgrades on 2.0.0
-- Merge multiple svgs to a single file
-    - example:
+- Merge multiple svgs to a single svg data, input will be an array of svg tag (the content of svg files) format of the svgs to merge
+    - simple example:
     ```
-        svgjson.mergeSvgs([file_address1, file_address2, file_address3, ...])
+        svgjson.mergeSvgs(svgjsons)
+    ```
+    - practical example:
+    ```
+        <!-- convert the svg file to svgjsons -->
+        svgjson.readFiles([svgfile_address1, svgfile_address2, svgfile_address3, ...])
+        .then(svgjsons => svgjson.mergeSvgs(svgjsons)
     ```
 - Advanced style handler separate requests to add new styles to svgjson.
     - It takes care of the every aspect of the style(color, font size).
     - example:
-the svgjson is supposed to be json format created through convert method
-```
-svgjson = svgjson.colorHandler(svgjson, '#000')
-svgjson = svgjson.sizeHandler(svgjson, '120')
-```
+    ```
+        <!-- the svgjson is supposed to be json format created through convert method -->
+        svgjson = svgjson.colorHandler(svgjson, '#000')
+        svgjson = svgjson.sizeHandler(svgjson, '120')
+    ```
 
 ### API
 - Link: https://rexfont.com/svgjson/convert
