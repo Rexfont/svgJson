@@ -135,4 +135,5 @@ module.exports = {
   colorHandler: propertyHandler.colorHandler,
   sizeHandler: propertyHandler.sizeHandler,
   readFiles: fileHelper.readFiles,
+  processor: parseFormat.process,
 };
