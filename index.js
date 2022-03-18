@@ -82,23 +82,28 @@ async function mergeSvgs(svgsDataIn, namesMode=false) {
   let content = ''
   // get informations
   const svgsData = await Promise.all(svgsDataIn.map(svgdata => parseJson.async(svgdata)))
-  .then(svgsData => parse.encodeClasses(svgsData))
+  .then(parse.encodeClasses)
   const svgsPathes = svgsData.map(parse.extractPathes)
   const svgsStyles = svgsData.map(parse.extractStyles)
 
   // generate the singular svg file
   content += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${svgsData[0][0].attributes.viewBox.toString().replaceAll(',', ' ')}>\n`
   content += `<defs>`
-  if (svgsStyles.flat().flat().length > 0) {
+  if (svgsStyles.length > 0) {
     content += `<style>`
-    svgsStyles.flat().flat().forEach(style => {
-      content += `${style[0]} {`
-      style[1].forEach(properties => {
-        if (properties && properties.length)
-          content += `${properties.toString().replaceAll(',', ':')};`
-      }); content += `}\n`
+    svgsStyles.forEach(style => {
+      style.forEach(iclass => {
+        let tmpstyle = Object.entries(iclass)
+        tmpstyle.forEach(tmpistyle => {
+          content += `${tmpistyle[0]}{`
+          Object.entries(tmpistyle[1]).forEach(properties => {
+            if (properties && properties.length) content += `${properties.toString().replaceAll(',', ':')};`
+          }); content += `}\n`
+        });
+      });
     }); content += `</style>`
-  }; content += `</defs>`
+  }
+  content += `</defs>`
   svgsPathes.forEach((pathes, count) => {
     pathes.forEach(path => {
       let cclass = path.attributes && path.attributes.class ? path.attributes.class  : ''
