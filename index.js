@@ -78,16 +78,14 @@ function getPathType(path, regExp) {
   return indexes;
 }
 
-async function mergeSvgs(svgsDataIn, namesMode=false) {
+function mergeSvgs(svgsData, namesMode=false) {
   let content = ''
   // get informations
-  const svgsData = await Promise.all(svgsDataIn.map(svgdata => parseJson.async(svgdata)))
-  .then(parse.encodeClasses)
   const svgsPathes = svgsData.map(parse.extractPathes)
   const svgsStyles = svgsData.map(parse.extractStyles)
 
   // generate the singular svg file
-  content += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${svgsData[0][0].attributes.viewBox.toString().replaceAll(',', ' ')}>\n`
+  content += `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${svgsData[0][0].attributes.viewBox.toString().replaceAll(',', ' ')}">\n`
   content += `<defs>`
   if (svgsStyles.length > 0) {
     content += `<style>`
